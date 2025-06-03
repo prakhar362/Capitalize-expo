@@ -3,6 +3,8 @@ import { StyleSheet } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack'; 
 import SplashScreen from "../screens/SplashScreen";
 import Login from "../screens/Login";
+import Signup from "../screens/Signup";
+import ForgotPasword from "../screens/ForgotPassword";
 import HomeScreen from "../screens/HomeScreen";
 import Profile from "../screens/Profile";
 import OrderConfirm from "../screens/OrderConfirm";
@@ -34,6 +36,8 @@ const AppNavigator = () => {
       }}
     >
       <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Signup" component={Signup} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPasword} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="OrderConfirm" component={OrderConfirm} />
