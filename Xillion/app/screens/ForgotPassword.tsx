@@ -33,21 +33,25 @@ export default function ForgotPassword() {
 
   return (
     <View style={[styles.container, { paddingBottom: 60 + insets.bottom }]}>
-      {/* Back Button */}
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
-        <Image 
-          source={require('../../assets/images/back_arrow.png')}
-          style={styles.backIcon}
-        />
-      </TouchableOpacity>
-      <Text style={styles.headerTitle}>Forgot Password</Text>
+      <View style={styles.headerContainer}>
+        {/* Back Button */}
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Image 
+            source={require('../../assets/images/back_arrow.png')}
+            style={styles.backIcon}
+          />
+        </TouchableOpacity>
+
+        <View style={styles.titleContainer}>
+          <Text style={styles.headerTitle}>Forgot Password</Text>
+          <Text style={styles.text}>Enter your mobile number to receive a verification code</Text>
+        </View>
+      </View>
       
       <View style={styles.content}>
-        <Text style={styles.text}>Enter your mobile number to receive a verification code</Text>
-        
         <TextInput
           style={styles.input}
           placeholder="Mobile Number"
@@ -86,36 +90,42 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: Platform.OS === "android" ? 60 : 100,
   },
+  headerContainer: {
+    marginBottom: 20,
+  },
   backButton: {
     position: "absolute",
-    top: Platform.OS === "android" ? 40 : 70,
-    left: 20,
+    top: Platform.OS === "android" ? 0 : 0,
+    left: 0,
     padding: 10,
     backgroundColor: "#0E0422",
     borderRadius: 10,
+    zIndex: 1,
   },
   backIcon: {
     width: 24,
     height: 24,
     resizeMode: 'contain',
   },
+  titleContainer: {
+    marginTop: 60,
+  },
   headerTitle: {
     fontSize: 24,
     fontWeight: "bold",
     color: "white",
-    textAlign: "center",
-    marginBottom: 30,
+    textAlign: "left",
+    marginBottom: 12,
   },
   content: {
     flex: 1,
     alignItems: "center",
-    paddingTop: 20,
   },
   text: {
     color: "#ccc",
-    textAlign: "center",
+    textAlign: "left",
     fontSize: 16,
-    marginBottom: 30,
+    marginBottom: 20,
   },
   input: {
     width: "100%",

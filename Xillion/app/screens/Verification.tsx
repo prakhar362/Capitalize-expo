@@ -59,23 +59,26 @@ export default function Verification() {
 
   return (
     <View style={[styles.container, { paddingBottom: 60 + insets.bottom }]}>
-      {/* Back Button */}
-      <TouchableOpacity
-              style={styles.backButton}
-              onPress={() => navigation.goBack()}
-            >
-              <Image 
-                source={require('../../assets/images/back_arrow.png')}
-                style={styles.backIcon}
-              />
-            </TouchableOpacity>
+      <View style={styles.headerContainer}>
+        {/* Back Button */}
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Image 
+            source={require('../../assets/images/back_arrow.png')}
+            style={styles.backIcon}
+          />
+        </TouchableOpacity>
 
-      {/* Title */}
-      <Text style={styles.title}>Enter Verification Code</Text>
-      <Text style={styles.subtitle}>
-        Enter 4-digit code that we just sent to your phone number{" "}
-        <Text style={styles.mobileNumber}>+91 {mobileNumber}</Text>
-      </Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Enter Verification Code</Text>
+          <Text style={styles.subtitle}>
+            Enter 4-digit code that we just sent to your phone number{" "}
+            <Text style={styles.mobileNumber}>+91 {mobileNumber}</Text>
+          </Text>
+        </View>
+      </View>
 
       {/* OTP Inputs */}
       <View style={styles.otpContainer}>
@@ -127,33 +130,38 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: Platform.OS === "android" ? 60 : 100,
   },
+  headerContainer: {
+    marginBottom: 20,
+  },
   backButton: {
     position: "absolute",
-    top: Platform.OS === "android" ? 40 : 70,
-    left: 20,
+    top: Platform.OS === "android" ? 0 : 0,
+    left: 0,
     padding: 10,
     backgroundColor: "#0E0422",
     borderRadius: 10,
+    zIndex: 1,
   },
   backIcon: {
     width: 24,
     height: 24,
     resizeMode: 'contain',
   },
+  titleContainer: {
+    marginTop: 60,
+  },
   title: {
     color: "white",
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: "bold",
-    textAlign: "center",
-    marginTop: 30,
+    textAlign: "left",
+    marginBottom: 12,
   },
   subtitle: {
     color: "#ccc",
-    textAlign: "center",
-    fontSize: 14,
-    marginTop: 12,
-    marginBottom: 30,
-    paddingHorizontal: 10,
+    textAlign: "left",
+    fontSize: 16,
+    marginBottom: 20,
   },
   mobileNumber: {
     fontWeight: "bold",
