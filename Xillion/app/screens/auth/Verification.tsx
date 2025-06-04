@@ -123,7 +123,7 @@ export default function Verification() {
         <LinearGradient
           colors={["#C525FF", "#391EDC"]}
           start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
+          end={{ x: 0, y: 1 }}
           style={styles.verifyButton}
         >
           <Text style={styles.verifyText}>Verify</Text>

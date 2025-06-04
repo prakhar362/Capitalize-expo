@@ -114,7 +114,7 @@ export default function NewPassword() {
           <LinearGradient
             colors={["#C525FF", "#391EDC"]}
             start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
+            end={{ x: 0, y: 1 }}
             style={styles.gradientButton}
           >
             <Text style={styles.buttonText}>Create Password</Text>

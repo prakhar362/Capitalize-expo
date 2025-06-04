@@ -69,7 +69,7 @@ export default function ForgotPassword() {
           <LinearGradient
             colors={["#C525FF", "#391EDC"]}
             start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
+            end={{ x: 0, y: 1 }}
             style={[
               styles.sendButton,
               { opacity: mobileNumber.length === 10 ? 1 : 0.6 }

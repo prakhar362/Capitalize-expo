@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, ScrollView, TouchableOpacity, ColorValue, Alert, Platform } from "react-native";
+import { Text, View, StyleSheet, ScrollView, TouchableOpacity, ColorValue, Alert,Image, Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -82,10 +82,13 @@ export default function HomeScreen() {
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Feather name="user" size={24} color="#fff" />
+            <Feather name="user" size={25} color="#fff" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>XILLION</Text>
-          <Feather name="bell" size={24} color="#fff" />
+          <Image 
+            source={require('../../assets/images/notification.png')}
+            style={styles.headerIcon}
+          />
         </View>
        
         {/*Portfolio section */}
@@ -104,11 +107,17 @@ export default function HomeScreen() {
       {/* Action Buttons */}
       <View style={styles.actionButtonsContainer}>
         <TouchableOpacity style={styles.actionButton}>
-          <MaterialCommunityIcons name="folder-multiple" size={22} color="#fff" />
+          <Image 
+            source={require('../../assets/images/download.png')}
+            style={styles.actionIcon}
+          />
           <Text style={styles.actionButtonText}>Portfolio</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.actionButton}>
-          <MaterialCommunityIcons name="message-processing" size={22} color="#fff" />
+          <Image 
+            source={require('../../assets/images/chat.png')}
+            style={styles.actionIcon}
+          />
           <Text style={styles.actionButtonText}>Ask AI</Text>
         </TouchableOpacity>
       </View>
@@ -197,6 +206,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 50,
   },
+  headerIcon: {
+    width: 25,
+    height: 25,
+    resizeMode: 'contain',
+  },
   headerTitle: {
     fontSize: 26,
     fontWeight: "600",
@@ -242,6 +256,11 @@ const styles = StyleSheet.create({
     marginTop: -15,
     justifyContent: "center",
     width: "100%",
+  },
+  actionIcon: {
+    width: 22,
+    height: 22,
+    resizeMode: 'contain',
   },
   actionButton: {
     flexDirection: "row",
