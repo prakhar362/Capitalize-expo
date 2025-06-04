@@ -10,15 +10,24 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRoute, useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LinearGradient } from "expo-linear-gradient";
 
 type RouteParams = {
   mobileNumber: string;
 };
 
+type RootStackParamList = {
+  Login: undefined;
+  ForgotPassword: undefined;
+  NewPassword:undefined;
+};
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
 export default function Verification() {
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
   const route = useRoute();
   const { mobileNumber } = route.params as RouteParams;
 
@@ -50,6 +59,7 @@ export default function Verification() {
     if (enteredCode.length === 4) {
       console.log("Code entered:", enteredCode);
       // Navigate or verify here
+      navigation.navigate('NewPassword')
     }
   };
 
