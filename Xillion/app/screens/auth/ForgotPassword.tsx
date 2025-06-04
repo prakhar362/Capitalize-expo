@@ -40,7 +40,7 @@ export default function ForgotPassword() {
           onPress={() => navigation.goBack()}
         >
           <Image 
-            source={require('../../assets/images/back_arrow.png')}
+            source={require('../../../assets/images/back_arrow.png')}
             style={styles.backIcon}
           />
         </TouchableOpacity>
