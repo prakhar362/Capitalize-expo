@@ -5,6 +5,7 @@ import SplashScreen from "../screens/SplashScreen";
 import Login from "../screens/Login";
 import Signup from "../screens/Signup";
 import ForgotPasword from "../screens/ForgotPassword";
+import Verification from "../screens/Verification";
 import HomeScreen from "../screens/HomeScreen";
 import Profile from "../screens/Profile";
 import OrderConfirm from "../screens/OrderConfirm";
@@ -38,6 +39,7 @@ const AppNavigator = () => {
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Signup" component={Signup} />
       <Stack.Screen name="ForgotPassword" component={ForgotPasword} />
+      <Stack.Screen name="Verification" component={Verification} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="OrderConfirm" component={OrderConfirm} />
