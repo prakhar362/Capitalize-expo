@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -20,11 +20,12 @@ const BottomTabNavigator = () => {
         headerShown: false,
         tabBarStyle: {
           backgroundColor: "#0E0422", // Dark background matching your recent change
-          borderTopWidth: 0,
+          borderTopWidth: 1,
+          borderTopColor: 'white',
           elevation: 0,
           height: 60 + insets.bottom, // Adjust height for bottom safe area
           paddingBottom: insets.bottom > 0 ? insets.bottom - 5 : 5, // Add padding at bottom, slight adjustment
-          paddingTop: 5,
+          paddingTop: 10,
           position: 'absolute', // Positioning to control placement
           bottom: 0,
           left: 0,
@@ -44,8 +45,11 @@ const BottomTabNavigator = () => {
         name="History"
         component={History}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="time-outline" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Image 
+              source={focused ? require('../../assets/images/history_2-white.png') : require('../../assets/images/history_2.png')}
+              style={{ width: 24, height: 24 }}
+            />
           ),
         }}
       />
@@ -53,17 +57,23 @@ const BottomTabNavigator = () => {
         name="HomeScreen"
         component={HomeScreen}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Image 
+              source={focused ? require('../../assets/images/home_2-white.png') : require('../../assets/images/home_2.png')}
+              style={{ width: 28, height: 28, paddingTop: 4 }}
+            />
           ),
         }}
       />
       <Tab.Screen
-        name="Profile" // Using Profile
-        component={Profile} // Linking to Profile 
+        name="Profile"
+        component={Profile}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="user" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Image 
+              source={focused ? require('../../assets/images/user_1-white.png') : require('../../assets/images/user_1.png')}
+              style={{ width: 24, height: 24, paddingTop: 2 }}
+            />
           ),
         }}
       />
