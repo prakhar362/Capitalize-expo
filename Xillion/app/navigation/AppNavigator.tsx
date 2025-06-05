@@ -7,11 +7,11 @@ import Signup from "../screens/auth/Signup";
 import ForgotPasword from "../screens/auth/ForgotPassword";
 import Verification from "../screens/auth/Verification";
 import NewPassword from "../screens/auth/NewPassword";
-import HomeScreen from "../screens/HomeScreen";
-import Profile from "../screens/Profile";
-import OrderConfirm from "../screens/OrderConfirm";
-import OrderSucess from "../screens/OrderSucess";
-import History from "../screens/History";
+import HomeScreen from "../screens/home/HomeScreen";
+import Profile from "../screens/home/Profile";
+import OrderConfirm from "../screens/home/OrderConfirm";
+import OrderSucess from "../screens/home/OrderSucess";
+import History from "../screens/home/History";
 import ChatAI from "../screens/ChatAI";
 
 // ✅ CREATE STACK

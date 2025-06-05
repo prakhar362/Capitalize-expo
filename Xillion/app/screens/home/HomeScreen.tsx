@@ -20,7 +20,7 @@ export default function HomeScreen() {
   const gradientColorsRecommendations: [ColorValue, ColorValue] = ["#C426FF", "#391FDC"];
 
   const [fontsLoaded] = useFonts({
-    'Syne-Regular': require('../../assets/fonts/Syne-Regular.ttf'),
+    'Syne-Regular': require('../../../assets/fonts/Syne-Regular.ttf'),
   });
 
   if (!fontsLoaded) {
@@ -86,7 +86,7 @@ export default function HomeScreen() {
           </TouchableOpacity>
           <Text style={styles.headerTitle}>XILLION</Text>
           <Image 
-            source={require('../../assets/images/notification.png')}
+            source={require('../../../assets/images/notification.png')}
             style={styles.headerIcon}
           />
         </View>
@@ -108,14 +108,14 @@ export default function HomeScreen() {
       <View style={styles.actionButtonsContainer}>
         <TouchableOpacity style={styles.actionButton}>
           <Image 
-            source={require('../../assets/images/download.png')}
+            source={require('../../../assets/images/download.png')}
             style={styles.actionIcon}
           />
           <Text style={styles.actionButtonText}>Portfolio</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.actionButton}>
           <Image 
-            source={require('../../assets/images/chat.png')}
+            source={require('../../../assets/images/chat.png')}
             style={styles.actionIcon}
           />
           <Text style={styles.actionButtonText}>Ask AI</Text>
