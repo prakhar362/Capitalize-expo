@@ -1,23 +1,23 @@
 import { Text, View, StyleSheet, ScrollView, TouchableOpacity, ColorValue, Alert,Image, Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from '@react-navigation/native';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList, MainTabParamList } from '../../navigation/types';
 import { LinearGradient } from "expo-linear-gradient";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeButton } from "react-native-expo-swipe-button";
 import { useFonts } from 'expo-font';
 
-type RootStackParamList = {
-  Login: undefined;
-};
-
-type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+type HomeScreenNavigationProp = BottomTabNavigationProp<MainTabParamList>;
+type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigation<HomeScreenNavigationProp>();
+  const rootNavigation = useNavigation<RootStackNavigationProp>();
   const gradientColorsUpper: [ColorValue, ColorValue] = ["#C525FF", "#391EDC"];
-  const gradientColorsRecommendations: [ColorValue, ColorValue] = ["#C426FF", "#391FDC"];
+  const gradientColorsRecommendations: [ColorValue, ColorValue] = ["#C425FF", "#391FDC"];
 
   const [fontsLoaded] = useFonts({
     'Syne-Regular': require('../../../assets/fonts/Syne-Regular.ttf'),
@@ -81,7 +81,7 @@ export default function HomeScreen() {
       >
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
             <Feather name="user" size={25} color="#fff" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>XILLION</Text>
@@ -106,14 +106,14 @@ export default function HomeScreen() {
 
       {/* Action Buttons */}
       <View style={styles.actionButtonsContainer}>
-        <TouchableOpacity style={styles.actionButton}>
+        <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('History')}>
           <Image 
             source={require('../../../assets/images/download.png')}
             style={styles.actionIcon}
           />
           <Text style={styles.actionButtonText}>Portfolio</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton}>
+        <TouchableOpacity style={styles.actionButton} onPress={() => rootNavigation.navigate('ChatAI')}>
           <Image 
             source={require('../../../assets/images/chat.png')}
             style={styles.actionIcon}

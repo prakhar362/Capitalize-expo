@@ -19,7 +19,7 @@ export default function ChatAI() {
       <View style={styles.header}>
         <TouchableOpacity 
           style={styles.backButton}
-          onPress={() => navigation.navigate('Login')}
+          onPress={() => navigation.goBack()}
         >
           <Ionicons name="arrow-back" size={24} color="white" />
         </TouchableOpacity>

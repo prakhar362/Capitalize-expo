@@ -13,13 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-
-type RootStackParamList = {
-  Login: undefined;
-  Signup: undefined;
-  ForgotPassword: undefined;
-  Home: undefined;
-};
+import { RootStackParamList } from '../../navigation/types';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -77,7 +71,7 @@ export default function LoginScreen() {
       </TouchableOpacity>
 
       {/* Login Button */}
-      <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+      <TouchableOpacity onPress={() => navigation.navigate("BottomTabs", { screen: "HomeScreen" })}>
         <LinearGradient
   colors={["#C525FF", "#391EDC"]}
   start={{ x: 0, y: 0 }}
