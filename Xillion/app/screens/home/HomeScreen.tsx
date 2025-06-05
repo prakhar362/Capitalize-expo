@@ -68,6 +68,7 @@ export default function HomeScreen() {
 
   const handleExecute = () => {
     Alert.alert("Execute", "Executing trades...");
+    navigation.navigate('OrderSuccess');
   };
 
   return (
