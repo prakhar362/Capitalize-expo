@@ -60,7 +60,7 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ color, size, focused }) => (
             <Image 
               source={focused ? require('../../assets/images/home_2-white.png') : require('../../assets/images/home_2.png')}
-              style={{ width: 28, height: 28, paddingTop: 4 }}
+              style={{ width: 28, height: 28, marginTop: 3 }}
             />
           ),
         }}
