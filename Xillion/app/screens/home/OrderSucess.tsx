@@ -25,7 +25,7 @@ export default function OrderSuccess() {
        {/* Back Button */}
         <TouchableOpacity
                 style={styles.backButton}
-                onPress={() => navigation.goBack()}
+                onPress={() => navigation.navigate("BottomTabs", { screen: "HomeScreen" })}
               >
                 <Image 
                   source={require('../../../assets/images/back_arrow.png')}
