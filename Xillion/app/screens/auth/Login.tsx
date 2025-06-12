@@ -16,6 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { RootStackParamList } from '../../navigation/types';
 import api from "../../config/api";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -36,6 +37,14 @@ export default function LoginScreen() {
       });
 
       console.log('Login successful:', response.data);
+
+      // Store access token in AsyncStorage
+      const { access_token, token_type } = response.data;
+      if (access_token && token_type) {
+        await AsyncStorage.setItem('userToken', access_token);
+        console.log('Access token stored successfully!');
+      }
+      
       Alert.alert('Success', 'Logged in successfully!');
       // Navigate to home screen or dashboard after successful login
       navigation.navigate("BottomTabs", { screen: "HomeScreen" });
