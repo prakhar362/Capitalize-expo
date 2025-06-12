@@ -39,9 +39,8 @@ export default function LoginScreen() {
       {/* Email */}
       <TextInput
         style={styles.input}
-        placeholder="Email address"
+        placeholder="Enter your Username"
         placeholderTextColor="#999"
-        keyboardType="email-address"
         autoCapitalize="none"
       />
 

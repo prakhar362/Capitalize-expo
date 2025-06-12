@@ -44,26 +44,22 @@ export default function Signup() {
         It only takes a minute to create your account
       </Text>
 
-      {/* First & Last Name */}
+      {/* UserName */}
       <View style={styles.nameRow}>
         <TextInput
           style={[styles.input, { flex: 1, marginRight: 6 }]}
-          placeholder="First Name"
+          placeholder="Enter a Username"
           placeholderTextColor="#999"
         />
-        <TextInput
-          style={[styles.input, { flex: 1, marginLeft: 6 }]}
-          placeholder="Last Name"
-          placeholderTextColor="#999"
-        />
+        
       </View>
 
-      {/* Email */}
+      {/* MobileNumber */}
       <TextInput
         style={styles.input}
-        placeholder="Email address"
+        placeholder="Mobile Number"
         placeholderTextColor="#999"
-        keyboardType="email-address"
+        keyboardType="phone-pad"
       />
 
       {/* Password */}
@@ -163,7 +159,7 @@ const styles = StyleSheet.create({
   },
   nameRow: {
     flexDirection: "row",
-    marginBottom: 16,
+    marginBottom: 1,
   },
   input: {
     borderColor: "#5e5e5e",
