@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Platform,
   Image,
+  Alert,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -14,6 +15,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { RootStackParamList } from '../../navigation/types';
+import api from "../../config/api";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -21,6 +23,35 @@ export default function LoginScreen() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<NavigationProp>();
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = async () => {
+    try {
+      setIsLoading(true);
+      const response = await api.post('/login', {
+        username,
+        password,
+      });
+
+      console.log('Login successful:', response.data);
+      Alert.alert('Success', 'Logged in successfully!');
+      // Navigate to home screen or dashboard after successful login
+      navigation.navigate("BottomTabs", { screen: "HomeScreen" });
+    } catch (error: any) {
+      console.error('Login error:', error);
+      if (error.response) {
+        Alert.alert('Login Failed', error.response.data.message || 'Invalid username or password. Please try again.');
+      } else if (error.request) {
+        Alert.alert('Network Error', 'No response from server. Please check your internet connection.');
+      } else {
+        Alert.alert('Error', error.message || 'An unknown error occurred.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <View
@@ -42,6 +73,8 @@ export default function LoginScreen() {
         placeholder="Enter your Username"
         placeholderTextColor="#999"
         autoCapitalize="none"
+        value={username}
+        onChangeText={setUsername}
       />
 
       {/* Password */}
@@ -51,6 +84,8 @@ export default function LoginScreen() {
           placeholder="Password"
           placeholderTextColor="#999"
           secureTextEntry={!showPassword}
+          value={password}
+          onChangeText={setPassword}
         />
         <TouchableOpacity
           onPress={() => setShowPassword(!showPassword)}
@@ -70,14 +105,22 @@ export default function LoginScreen() {
       </TouchableOpacity>
 
       {/* Login Button */}
-      <TouchableOpacity onPress={() => navigation.navigate("BottomTabs", { screen: "HomeScreen" })}>
+      <TouchableOpacity 
+        onPress={handleLogin}
+        disabled={isLoading}
+      >
         <LinearGradient
-  colors={["#C525FF", "#391EDC"]}
-  start={{ x: 0, y: 0 }}
-  end={{ x: 0, y: 1 }} // top-to-bottom
-  style={styles.loginButton}
->
-          <Text style={styles.loginButtonText}>Log In</Text>
+          colors={["#C525FF", "#391EDC"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }} // top-to-bottom
+          style={[
+            styles.loginButton,
+            { opacity: isLoading ? 0.6 : 1 },
+          ]}
+        >
+          <Text style={styles.loginButtonText}>
+            {isLoading ? 'Logging In...' : 'Log In'}
+          </Text>
         </LinearGradient>
       </TouchableOpacity>
 

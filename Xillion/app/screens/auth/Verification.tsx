@@ -7,20 +7,25 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  Alert,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LinearGradient } from "expo-linear-gradient";
+import api from "../../config/api";
 
 type RouteParams = {
   mobileNumber: string;
+  username?: string; // Optional username
+  password?: string; // Optional password
 };
 
 type RootStackParamList = {
   Login: undefined;
   ForgotPassword: undefined;
   NewPassword:undefined;
+  BottomTabs: { screen: string };
 };
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -29,10 +34,11 @@ export default function Verification() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute();
-  const { mobileNumber } = route.params as RouteParams;
+  const { mobileNumber, username, password } = route.params as RouteParams;
 
   const [code, setCode] = useState(["", "", "", ""]);
   const inputs = useRef<Array<TextInput | null>>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [timer, setTimer] = useState(60);
 
@@ -54,12 +60,41 @@ export default function Verification() {
     }
   };
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     const enteredCode = code.join("");
-    if (enteredCode.length === 4) {
-      console.log("Code entered:", enteredCode);
-      // Navigate or verify here
-      navigation.navigate('NewPassword')
+    if (enteredCode.length !== 4) {
+      Alert.alert('Invalid Code', 'Please enter the full 4-digit code.');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const requestBody: { code: string; mobile_number: string; username?: string; password?: string } = {
+        code: enteredCode,
+        mobile_number: mobileNumber,
+      };
+
+      if (username && password) {
+        requestBody.username = username;
+        requestBody.password = password;
+      }
+
+      const response = await api.post('/register/validate', requestBody);
+      console.log('Verification successful:', response.data);
+      Alert.alert('Success', 'Verification successful!');
+      navigation.navigate('Login'); // Navigate to Login after successful validation
+
+    } catch (error: any) {
+      console.error('Verification error:', error);
+      if (error.response) {
+        Alert.alert('Verification Failed', error.response.data.message || 'Failed to verify code. Please try again.');
+      } else if (error.request) {
+        Alert.alert('Network Error', 'No response from server. Please check your internet connection.');
+      } else {
+        Alert.alert('Error', error.message || 'An unknown error occurred.');
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -119,14 +154,20 @@ export default function Verification() {
       </Text>
 
       {/* Verify Button */}
-      <TouchableOpacity activeOpacity={0.8} onPress={handleVerify}>
+      <TouchableOpacity 
+        activeOpacity={0.8} 
+        onPress={handleVerify}
+        disabled={isLoading}
+      >
         <LinearGradient
           colors={["#C525FF", "#391EDC"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 0, y: 1 }}
           style={styles.verifyButton}
         >
-          <Text style={styles.verifyText}>Verify</Text>
+          <Text style={styles.verifyText}>
+            {isLoading ? 'Verifying...' : 'Verify'}
+          </Text>
         </LinearGradient>
       </TouchableOpacity>
     </View>

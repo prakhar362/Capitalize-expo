@@ -19,7 +19,7 @@ import api from "../../config/api";
 type RootStackParamList = {
   Login: undefined;
   Home: undefined;
-  Verification: { mobileNumber: string };
+  Verification: { mobileNumber: string; username?: string; password?: string };
 };
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -78,27 +78,21 @@ export default function Signup() {
         Alert.alert('Error', 'Username is not available. Please choose another one.');
         return;
       }
-      // Proceed with registration
-      const registrationResponse = await api.post('/register', {
-        username: formData.username,
-        password: formData.password
-      });
-
-      console.log('Registration successful:', registrationResponse.data);
       
       // Send OTP to mobile number
       await api.post('/register/send', { mobile_number: formData.mobileNumber });
       console.log('OTP sent successfully');
       
-      Alert.alert('Success', 'Registration successful! OTP sent to your mobile number.');
-      navigation.navigate('Verification', { mobileNumber: `+91${formData.mobileNumber}` });
+      Alert.alert('Success', 'OTP sent to your mobile number. Please verify to complete registration.');
+      navigation.navigate('Verification', {
+        mobileNumber: `${formData.mobileNumber}`,
+        username: formData.username,
+        password: formData.password,
+      });
       
     } catch (error: any) {
       if (error.response) {
-        if (error.response.config.url === '/register') {
-          console.error('Registration error details:', error.response.data);
-          Alert.alert('Registration Error', error.response.data.message || 'Registration failed. Please try again.');
-        } else if (error.response.config.url === '/register/send') {
+         if (error.response.config.url === '/register/send') {
           console.error('OTP send error details:', error.response.data);
           Alert.alert('OTP Send Error', error.response.data.message || 'Failed to send OTP. Please try again.');
         } else {
