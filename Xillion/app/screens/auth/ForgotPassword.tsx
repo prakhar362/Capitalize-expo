@@ -86,7 +86,7 @@ export default function ForgotPassword() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#21083a",
+    backgroundColor: "#201731",
     paddingHorizontal: 24,
     paddingTop: Platform.OS === "android" ? 60 : 100,
   },
