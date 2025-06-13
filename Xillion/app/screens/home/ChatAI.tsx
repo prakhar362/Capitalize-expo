@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Platform, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView } from "react-native";
+import { Text, View, StyleSheet, Platform, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Image } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -6,6 +6,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { useState, useRef, useEffect } from "react";
 import { LinearGradient } from 'expo-linear-gradient';
 import Sidebar from '../../components/sidebar';
+import { useFonts } from 'expo-font';
+
 
 type RootStackParamList = {
   Login: undefined;
@@ -34,6 +36,14 @@ export default function ChatAI() {
   const [isLoading, setIsLoading] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [fontsLoaded] = useFonts({
+      'Syne-Regular': require('../../../assets/fonts/Syne-Regular.ttf'),
+    });
+
+  if (!fontsLoaded) {
+    return null; // Or a loading indicator
+  }
 
   const scrollToBottom = () => {
     scrollViewRef.current?.scrollToEnd({ animated: true });
@@ -114,18 +124,20 @@ export default function ChatAI() {
       style={[styles.container, { paddingBottom: insets.bottom }]}
     >
       <LinearGradient
-        colors={['#201731', '#2D1F4A']}
+        colors={['#C425FF', '#391FDC']}
         style={styles.header}
       >
         <TouchableOpacity 
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
-          <Ionicons name="arrow-back" size={24} color="white" />
+          <Image 
+            source={require('../../../assets/images/back_arrow.png')}
+            style={styles.backButtonImage}
+          />
         </TouchableOpacity>
         <View style={styles.headerTitleContainer}>
           <Text style={styles.headerTitle}>Xillion AI</Text>
-          <Text style={styles.headerSubtitle}>Online</Text>
         </View>
         <TouchableOpacity style={styles.newChatButton} onPress={() => setSidebarOpen(true)}>
           <Ionicons name="menu" size={24} color="white" />
@@ -206,9 +218,9 @@ export default function ChatAI() {
         </TouchableOpacity>
         <View style={styles.inputWrapper}>
           <LinearGradient
-            colors={['#9333EA', '#3B82F6']}
+            colors={["#C425FF", "#391FDC"]}
             start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
+            end={{ x: 0, y: 1 }}
             style={styles.inputGradient}
           >
             <TextInput
@@ -262,21 +274,33 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
     paddingTop: 40,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255, 255, 255, 0.1)',
   },
   backButton: {
-    marginRight: 15,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  backButtonImage: {
+    width: 24,
+    height: 24,
+    tintColor: 'white',
+    resizeMode: 'contain',
   },
   headerTitleContainer: {
     flex: 1,
+    alignItems: "center",
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
     color: "white",
+    fontFamily: 'Syne-Regular',
   },
   headerSubtitle: {
     fontSize: 12,

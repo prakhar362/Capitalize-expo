@@ -38,7 +38,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       <TouchableOpacity 
         style={styles.overlay}
         activeOpacity={1}
-        onPress={onClose} // Close sidebar when overlay is pressed
+        onPress={onClose}
       >
         <View style={styles.sidebarContainer} onStartShouldSetResponder={() => true}>
           <LinearGradient
@@ -47,7 +47,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           >
             <View style={styles.header}>
               <Text style={styles.headerTitle}>Chat History</Text>
-              <TouchableOpacity onPress={onClose}>
+              <TouchableOpacity onPress={onClose} style={styles.closeButton}>
                 <Ionicons name="close" size={24} color="#9CA3AF" />
               </TouchableOpacity>
             </View>
@@ -62,8 +62,15 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             </View>
 
             <TouchableOpacity style={styles.newConversationButton}>
-              <Ionicons name="add" size={20} color="#9333EA" style={styles.newConversationIcon} />
-              <Text style={styles.newConversationText}>New Conversation</Text>
+              <LinearGradient
+                colors={['#9333EA', '#3B82F6']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.newConversationGradient}
+              >
+                <Ionicons name="add" size={20} color="white" style={styles.newConversationIcon} />
+                <Text style={styles.newConversationText}>New Conversation</Text>
+              </LinearGradient>
             </TouchableOpacity>
 
             <View style={styles.separator} />
@@ -106,9 +113,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   sidebarContainer: {
-    width: '75%', // Adjust as needed
+    width: '75%',
     height: '100%',
-    backgroundColor: 'transparent', // Transparent to show LinearGradient
+    backgroundColor: 'transparent',
   },
   sidebarContent: {
     flex: 1,
@@ -124,18 +131,21 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   headerTitle: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: 'bold',
     color: 'white',
+  },
+  closeButton: {
+    padding: 5,
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#2D1F4A',
-    borderRadius: 8,
+    borderRadius: 10,
     paddingHorizontal: 12,
     marginBottom: 15,
-    height: 40,
+    height: 45,
   },
   searchIcon: {
     marginRight: 10,
@@ -143,24 +153,26 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     color: 'white',
-    fontSize: 14,
+    fontSize: 15,
   },
   newConversationButton: {
+    borderRadius: 10,
+    overflow: 'hidden',
+    marginBottom: 15,
+  },
+  newConversationGradient: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 10,
-    borderRadius: 8,
-    backgroundColor: '#2D1F4A',
-    marginBottom: 15,
+    paddingHorizontal: 15,
   },
   newConversationIcon: {
     marginRight: 10,
   },
   newConversationText: {
-    color: '#9333EA',
+    color: 'white',
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '600',
   },
   separator: {
     height: 1,
@@ -174,10 +186,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    borderRadius: 8,
-    marginBottom: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    marginBottom: 10,
     backgroundColor: '#2D1F4A',
   },
   chatItemContent: {
@@ -187,10 +199,10 @@ const styles = StyleSheet.create({
   chatItemHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: 6,
   },
   chatItemTitle: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: '500',
     color: '#E0E0E0',
   },
@@ -200,9 +212,9 @@ const styles = StyleSheet.create({
   },
   unreadBadge: {
     backgroundColor: '#9333EA',
-    borderRadius: 10,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
+    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
     marginLeft: 8,
   },
   unreadBadgeText: {
@@ -211,11 +223,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   chatItemPreview: {
-    fontSize: 12,
+    fontSize: 13,
     color: '#A0A0A0',
   },
   chatItemTimestamp: {
-    fontSize: 10,
+    fontSize: 11,
     color: '#A0A0A0',
     marginTop: 2,
   },
