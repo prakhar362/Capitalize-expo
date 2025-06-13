@@ -141,15 +141,15 @@ export default function Signup() {
       {/* MobileNumber */}
       <View style={styles.inputWrapper}>
         <Text style={styles.prefixText}>+91</Text>
-        <TextInput
+      <TextInput
           style={[styles.input, styles.mobileInput]}
-          placeholder="Mobile Number"
-          placeholderTextColor="#999"
-          keyboardType="phone-pad"
+        placeholder="Mobile Number"
+        placeholderTextColor="#999"
+        keyboardType="phone-pad"
           value={formData.mobileNumber}
           onChangeText={(value) => handleInputChange('mobileNumber', value)}
           maxLength={10}
-        />
+      />
       </View>
 
       {/* Password */}

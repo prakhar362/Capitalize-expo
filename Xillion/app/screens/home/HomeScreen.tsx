@@ -68,7 +68,7 @@ export default function HomeScreen() {
 
   const handleExecute = () => {
     Alert.alert("Execute", "Executing trades...");
-    navigation.navigate('OrderConfirm');
+    rootNavigation.navigate('OrderConfirm');
   };
 
   return (
@@ -185,6 +185,12 @@ export default function HomeScreen() {
           height={50}
           borderRadius={50}
           circleSize={60}
+          underlayContainerGradientProps={{
+            colors: gradientColorsUpper as string[],
+            start: { x: 0, y: 0 },
+            end: { x: 0, y: 1 },
+          }}
+          underlayStyle={{ borderRadius: 50 }}
         />
       </View>
     </View>
@@ -356,11 +362,12 @@ const styles = StyleSheet.create({
   swipeButtonContainer: {
     width: "100%",
     backgroundColor: "#777777",
-    borderRadius: 25,
+    borderRadius: 50,
+    height: 50,
   },
   swipeButtonTitle: {
     fontSize: 20,
     fontWeight: "semibold",
-    color: "#000",
+    color: "#fff",
   },
 }); 
