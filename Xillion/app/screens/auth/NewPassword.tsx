@@ -17,6 +17,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 type RootStackParamList = {
   Login: undefined;
+  ForgotPassword: { newPassword: string };
 };
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -29,6 +30,7 @@ export default function NewPassword() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [secure1, setSecure1] = useState(true);
   const [secure2, setSecure2] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = () => {
     if (!password || !confirmPassword) {
@@ -40,10 +42,11 @@ export default function NewPassword() {
       return;
     }
 
-    Alert.alert("Success", "New password created", [
+    // No API call here, just navigate and pass the new password
+    Alert.alert("Success", "New password set. Please enter your mobile number to verify.", [
       {
         text: "OK",
-        onPress: () => navigation.navigate('Login'),
+        onPress: () => navigation.navigate('ForgotPassword', { newPassword: password }),
       },
     ]);
   };
@@ -110,6 +113,7 @@ export default function NewPassword() {
         <TouchableOpacity 
           style={styles.buttonContainer}
           onPress={handleSubmit}
+          disabled={isLoading}
         >
           <LinearGradient
             colors={["#C525FF", "#391EDC"]}
@@ -117,7 +121,9 @@ export default function NewPassword() {
             end={{ x: 0, y: 1 }}
             style={styles.gradientButton}
           >
-            <Text style={styles.buttonText}>Create Password</Text>
+            <Text style={styles.buttonText}>
+              {isLoading ? 'Setting Password...' : 'Create Password'}
+            </Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>

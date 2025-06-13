@@ -19,6 +19,8 @@ type RouteParams = {
   mobileNumber: string;
   username?: string; // Optional username
   password?: string; // Optional password
+  flowType?: 'signup' | 'forgotPassword'; // New: Optional flow type
+  newPassword?: string; // New: Optional new password for forgot password flow
 };
 
 type RootStackParamList = {
@@ -34,7 +36,7 @@ export default function Verification() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute();
-  const { mobileNumber, username, password } = route.params as RouteParams;
+  const { mobileNumber, username, password, flowType, newPassword } = route.params as RouteParams;
 
   const [code, setCode] = useState(["", "", "", ""]);
   const inputs = useRef<Array<TextInput | null>>([]);
@@ -69,20 +71,38 @@ export default function Verification() {
 
     setIsLoading(true);
     try {
-      const requestBody: { code: string; mobile_number: string; username?: string; password?: string } = {
-        code: enteredCode,
-        mobile_number: mobileNumber,
-      };
+      let response;
+      if (flowType === 'forgotPassword') {
+        if (!newPassword) {
+          Alert.alert('Error', 'New password not provided for reset.');
+          setIsLoading(false);
+          return;
+        }
+        const requestBody = {
+          mobile_number: mobileNumber,
+          code: enteredCode,
+          new_password: newPassword,
+        };
+        response = await api.post('/forgot-password/validate-otp', requestBody);
+      } else {
+        // Original signup validation flow
+        const requestBody: { code: string; mobile_number: string; username?: string; password?: string } = {
+          code: enteredCode,
+          mobile_number: mobileNumber,
+        };
 
-      if (username && password) {
-        requestBody.username = username;
-        requestBody.password = password;
+        if (username && password) {
+          requestBody.username = username;
+          requestBody.password = password;
+        }
+        response = await api.post('/register/validate', requestBody);
       }
 
-      const response = await api.post('/register/validate', requestBody);
       console.log('Verification successful:', response.data);
       Alert.alert('Success', 'Verification successful!');
-      navigation.navigate('Login'); // Navigate to Login after successful validation
+
+      // Navigate based on flowType
+      navigation.navigate('Login'); // Always navigate to Login after successful verification for both flows
 
     } catch (error: any) {
       console.error('Verification error:', error);

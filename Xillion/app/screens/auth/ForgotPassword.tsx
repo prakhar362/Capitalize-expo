@@ -7,15 +7,21 @@ import {
   TouchableOpacity,
   Platform,
   Image,
+  Alert,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LinearGradient } from "expo-linear-gradient";
+import api from "../../config/api";
+
+type RouteParams = {
+  newPassword?: string; // Optional new password from NewPassword screen
+};
 
 type RootStackParamList = {
   Login: undefined;
-  Verification: { mobileNumber: string };
+  Verification: { mobileNumber: string; flowType: 'forgotPassword'; newPassword: string };
 };
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -23,11 +29,41 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 export default function ForgotPassword() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<NavigationProp>();
+  const route = useRoute();
+  const { newPassword } = route.params as RouteParams;
+  
   const [mobileNumber, setMobileNumber] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSendCode = () => {
-    if (mobileNumber.length === 10) {
-      navigation.navigate("Verification", { mobileNumber });
+  const handleSendCode = async () => {
+    if (mobileNumber.length !== 10) {
+      Alert.alert("Invalid Mobile Number", "Please enter a valid 10-digit mobile number.");
+      return;
+    }
+
+    if (!newPassword) {
+      Alert.alert("Error", "New password not provided. Please go back and set a new password.");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await api.post(`/forgot-password/send-otp?mobile_number=${mobileNumber}`);
+      console.log('OTP sent for forgot password:', response.data);
+      
+      Alert.alert('Success', 'OTP sent to your mobile number.');
+      navigation.navigate("Verification", { mobileNumber, flowType: 'forgotPassword', newPassword });
+    } catch (error: any) {
+      console.error('Error sending OTP for forgot password:', error);
+      if (error.response) {
+        Alert.alert('Error', error.response.data.message || 'Failed to send OTP. Please try again.');
+      } else if (error.request) {
+        Alert.alert('Network Error', 'No response from server. Please check your internet connection.');
+      } else {
+        Alert.alert('Error', error.message || 'An unknown error occurred.');
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -63,7 +99,7 @@ export default function ForgotPassword() {
         />
 
         <TouchableOpacity 
-          disabled={mobileNumber.length !== 10}
+          disabled={mobileNumber.length !== 10 || isLoading}
           onPress={handleSendCode}
         >
           <LinearGradient
@@ -72,10 +108,12 @@ export default function ForgotPassword() {
             end={{ x: 0, y: 1 }}
             style={[
               styles.sendButton,
-              { opacity: mobileNumber.length === 10 ? 1 : 0.6 }
+              { opacity: (mobileNumber.length === 10 && !isLoading) ? 1 : 0.6 }
             ]}
           >
-            <Text style={styles.sendButtonText}>Send Code</Text>
+            <Text style={styles.sendButtonText}>
+              {isLoading ? 'Sending...' : 'Send Code'}
+            </Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>

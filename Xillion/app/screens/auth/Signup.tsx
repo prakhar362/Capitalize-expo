@@ -19,7 +19,7 @@ import api from "../../config/api";
 type RootStackParamList = {
   Login: undefined;
   Home: undefined;
-  Verification: { mobileNumber: string; username?: string; password?: string };
+  Verification: { mobileNumber: string; username?: string; password?: string; flowType: 'signup' | 'forgotPassword' };
 };
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -88,6 +88,7 @@ export default function Signup() {
         mobileNumber: `${formData.mobileNumber}`,
         username: formData.username,
         password: formData.password,
+        flowType: 'signup',
       });
       
     } catch (error: any) {
