@@ -327,12 +327,26 @@ export default function History() {
                 ]}
                 onPress={() => setSelectedCategory(category)}
               >
-                <Text style={[
-                  styles.categoryButtonText,
-                  selectedCategory === category && styles.activeCategoryButtonText
-                ]}>
-                  {category}
-                </Text>
+                <LinearGradient
+                  colors={selectedCategory === category 
+                    ? ['#C426FF', '#391FDC'] 
+                    : ['#C426FF', '#391FDC']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 0, y: 1 }}
+                  style={styles.categoryGradient}
+                >
+                  <View style={[
+                    styles.categoryButtonInner,
+                    selectedCategory === category && styles.activeCategoryButtonInner
+                  ]}>
+                    <Text style={[
+                      styles.categoryButtonText,
+                      selectedCategory === category && styles.activeCategoryButtonText
+                    ]}>
+                      {category}
+                    </Text>
+                  </View>
+                </LinearGradient>
               </TouchableOpacity>
             ))}
           </ScrollView>
@@ -539,22 +553,34 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   categoryButton: {
+    marginRight: 10,
+    borderRadius: 25,
+    overflow: 'hidden',
+  },
+  categoryGradient: {
+    padding: 2,
+    borderRadius: 25,
+  },
+  categoryButtonInner: {
     backgroundColor: '#2A1F3D',
     paddingVertical: 10,
     paddingHorizontal: 18,
-    borderRadius: 25,
-    marginRight: 10,
-    borderWidth: 1,
+    borderRadius: 23,
+    borderWidth: 0.1,
     borderColor: 'rgba(255, 255, 255, 0.1)',
   },
+  activeCategoryButtonInner: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+  },
   activeCategoryButton: {
-    backgroundColor: '#9C27B0',
-    borderColor: '#9C27B0',
+    backgroundColor: 'transparent',
   },
   categoryButtonText: {
     color: '#B8B8B8',
     fontSize: 14,
     fontWeight: '500',
+    textAlign: 'center',
   },
   activeCategoryButtonText: {
     color: '#fff',
