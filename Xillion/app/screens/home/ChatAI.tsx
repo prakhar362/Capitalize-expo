@@ -297,8 +297,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 28,
+    fontWeight: "600",
     color: "white",
     fontFamily: 'Syne-Regular',
   },
