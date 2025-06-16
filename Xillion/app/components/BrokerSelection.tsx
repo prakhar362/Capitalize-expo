@@ -6,10 +6,12 @@ import {
   TouchableOpacity,
   FlatList,
   StyleSheet,
-  ActivityIndicator
+  ActivityIndicator,
+  Linking
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../config/api';
+import { WebView } from 'react-native-webview';
 
 interface Broker {
   broker: string;
@@ -24,6 +26,8 @@ interface Props {
 export default function BrokerSelection({ isVisible, onClose }: Props) {
   const [brokers, setBrokers] = useState<Broker[]>([]);
   const [loading, setLoading] = useState(false);
+  const [webViewVisible, setWebViewVisible] = useState(false);
+  const [currentLoginUrl, setCurrentLoginUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchBrokers = async () => {
@@ -49,6 +53,11 @@ export default function BrokerSelection({ isVisible, onClose }: Props) {
     }
   }, [isVisible]);
 
+  const handleBrokerItemClick = (loginUrl: string) => {
+    setCurrentLoginUrl(loginUrl);
+    setWebViewVisible(true);
+  };
+
   return (
     <Modal
       visible={isVisible}
@@ -69,7 +78,7 @@ export default function BrokerSelection({ isVisible, onClose }: Props) {
               data={brokers}
               keyExtractor={(item, index) => item.broker + index}
               renderItem={({ item }) => (
-                <TouchableOpacity style={styles.brokerItem}>
+                <TouchableOpacity style={styles.brokerItem} onPress={() => handleBrokerItemClick(item.login_url)}>
                   <Text style={styles.brokerInitial}>{item.broker[0]}</Text>
                   <Text style={styles.brokerText}>{item.broker}</Text>
                 </TouchableOpacity>
@@ -78,6 +87,30 @@ export default function BrokerSelection({ isVisible, onClose }: Props) {
           )}
         </View>
       </View>
+
+      <Modal
+        visible={webViewVisible}
+        transparent
+        animationType="slide"
+      >
+        <View style={styles.webViewOverlay}>
+          <View style={styles.webViewContainer}>
+            <TouchableOpacity onPress={() => setWebViewVisible(false)} style={styles.webViewCloseBtn}>
+              <Text style={styles.closeText}>✕</Text>
+            </TouchableOpacity>
+            {currentLoginUrl && (
+              <WebView 
+                source={{ uri: currentLoginUrl }} 
+                style={{ flex: 1 }}
+                javaScriptEnabled={true}
+                domStorageEnabled={true}
+                startInLoadingState={true}
+                scalesPageToFit={true}
+              />
+            )}
+          </View>
+        </View>
+      </Modal>
     </Modal>
   );
 }
@@ -133,5 +166,29 @@ const styles = StyleSheet.create({
   brokerText: {
     color: '#fff',
     fontSize: 16,
+  },
+  webViewOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+  },
+  webViewContainer: {
+    flex: 1,
+    width: '90%',
+    height: '90%',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    overflow: 'hidden',
+    paddingTop: 40,
+  },
+  webViewCloseBtn: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    zIndex: 1,
+    padding: 5,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 15,
   },
 });
