@@ -8,6 +8,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeButton } from "react-native-expo-swipe-button";
 import { useFonts } from 'expo-font';
+import { useState } from 'react';
+import BrokerSelection from '../../components/BrokerSelection';
 
 type HomeScreenNavigationProp = BottomTabNavigationProp<MainTabParamList>;
 type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -18,6 +20,8 @@ export default function HomeScreen() {
   const rootNavigation = useNavigation<RootStackNavigationProp>();
   const gradientColorsUpper: [ColorValue, ColorValue] = ["#C525FF", "#391EDC"];
   const gradientColorsRecommendations: [ColorValue, ColorValue] = ["#C425FF", "#391FDC"];
+
+  const [isBrokerSelectionVisible, setIsBrokerSelectionVisible] = useState(false);
 
   const [fontsLoaded] = useFonts({
     'Syne-Regular': require('../../../assets/fonts/Syne-Regular.ttf'),
@@ -91,6 +95,13 @@ export default function HomeScreen() {
             style={styles.headerIcon}
           />
         </View>
+
+        <TouchableOpacity style={styles.connectBrokerButton} onPress={() => {
+          console.log("Connect Broker button pressed, setting isBrokerSelectionVisible to true");
+          setIsBrokerSelectionVisible(true);
+        }}>
+          <Text style={styles.connectBrokerButtonText}>Connect Broker</Text>
+        </TouchableOpacity>
        
         {/*Portfolio section */}
         <View style={styles.portfolioSection}>
@@ -193,6 +204,13 @@ export default function HomeScreen() {
           underlayStyle={{ borderRadius: 50 }}
         />
       </View>
+
+      {isBrokerSelectionVisible && (
+        <BrokerSelection 
+          isVisible={isBrokerSelectionVisible} 
+          onClose={() => setIsBrokerSelectionVisible(false)} 
+        />
+      )}
     </View>
   );
 }
@@ -369,5 +387,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "semibold",
     color: "#fff",
+  },
+  connectBrokerButton: {
+    marginTop: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    backgroundColor: "rgba(255,255,255,0.2)",
+    alignSelf: "center",
+  },
+  connectBrokerButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 }); 
