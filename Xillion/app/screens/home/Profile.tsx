@@ -12,6 +12,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import * as Font from 'expo-font';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Profile() {
   const insets = useSafeAreaInsets();
@@ -21,7 +22,7 @@ export default function Profile() {
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
-        'Inter-Bold': require('../../../assets/fonts/Inter_28pt-Bold.ttf'),
+         'Syne-Regular': require('../../../assets/fonts/Syne-Regular.ttf'),
       });
       setFontsLoaded(true);
     }
@@ -34,18 +35,23 @@ export default function Profile() {
 
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom }]}>
-      {/* Back Button */}
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-         <Image 
-          source={require('../../../assets/images/back_arrow.png')}
-          style={styles.backIcon}
-                         />
+      <LinearGradient
+        colors={["#C426FF", "#391FDC"]}
+        style={[styles.header, { paddingTop: insets.top + 10 }]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0, y: 1 }}
+      >
+        <TouchableOpacity 
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Image 
+            source={require('../../../assets/images/back_arrow.png')}
+            style={styles.backButtonImage}
+          />
         </TouchableOpacity>
-        <View style={styles.headerTitleContainer}>
-          <Text style={styles.headerTitle}>User Profile</Text>
-        </View>
-      </View>
+        <Text style={styles.headerTitle}>User Profile</Text>
+      </LinearGradient>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Avatar and Name */}
@@ -101,32 +107,31 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingTop: 50,
     position: 'relative',
+    height: 90,
+    justifyContent: 'center',
   },
   backButton: {
-      position: "absolute",
-      top: Platform.OS === "android" ? 40 : 60,
-      left: 20,
-      padding: 10,
-      backgroundColor: "#0E0422",
-      borderRadius: 10,
-      zIndex: 1,
-    },
-  backIcon: {
+    position: 'absolute',
+    left: 20,
+    top: 15,
+    bottom: 0,
+    justifyContent: 'center',
+    padding: 10,
+    zIndex: 1,
+  },
+  backButtonImage: {
     width: 24,
     height: 24,
     resizeMode: 'contain',
   },
-  headerTitleContainer: {
-    flex: 1,
-    alignItems: 'center',
-    marginLeft: 20, // Add space to account for back button
-  },
   headerTitle: {
-    fontSize: 22,
-    fontFamily: 'Inter-Bold',
+    fontSize: 26,
+    fontFamily: 'Syne-Regular',
     color: "white",
+    marginTop:-12,
+    textAlign: 'center',
+    flex: 1,
   },
   scrollContent: {
     paddingHorizontal: 20,

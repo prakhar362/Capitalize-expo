@@ -40,6 +40,7 @@ export default function BrokerSelection({ isVisible, onClose }: Props) {
             'Authorization': `Bearer ${token}`,
           }
         });
+        console.log("Server res: ",response.data)
         setBrokers(response.data || []);
       } catch (error) {
         console.error('Failed to fetch brokers', error);
